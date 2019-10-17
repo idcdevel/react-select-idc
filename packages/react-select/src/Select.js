@@ -1144,6 +1144,7 @@ export default class Select extends Component<Props, State> {
     const {
       isMulti,
       backspaceRemovesValue,
+      enterPreventDefault,
       escapeClearsValue,
       inputValue,
       isClearable,
@@ -1210,6 +1211,14 @@ export default class Select extends Component<Props, State> {
           // ignore the keydown event from an Input Method Editor(IME)
           // ref. https://www.w3.org/TR/uievents/#determine-keydown-keyup-keyCode
           break;
+        }
+        if (enterPreventDefault !== undefined && enterPreventDefault === true) {
+          event.preventDefault();
+          if (typeof e.stopPropagation != 'undefined') {
+            e.stopPropagation();
+          } else {
+            e.cancelBubble = true;
+          }
         }
         if (menuIsOpen) {
           if (!focusedOption) return;

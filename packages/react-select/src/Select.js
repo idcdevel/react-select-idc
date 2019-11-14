@@ -615,6 +615,14 @@ export default class Select extends Component<Props, State> {
     this.clearFocusValueOnUpdate = true;
     this.onChange(newValue, { action, option });
   };
+
+  selectCurrentOption = () => {
+    const { focusedOption } = this.state;
+    if (!focusedOption) return;
+
+    this.selectOption(focusedOption);
+  };
+
   selectOption = (newValue: OptionType) => {
     const { blurInputOnSelect, isMulti } = this.props;
     const { selectValue } = this.state;
@@ -1144,7 +1152,6 @@ export default class Select extends Component<Props, State> {
     const {
       isMulti,
       backspaceRemovesValue,
-      enterPreventDefault,
       escapeClearsValue,
       inputValue,
       isClearable,
@@ -1212,18 +1219,13 @@ export default class Select extends Component<Props, State> {
           // ref. https://www.w3.org/TR/uievents/#determine-keydown-keyup-keyCode
           break;
         }
-        if (enterPreventDefault !== undefined && enterPreventDefault === true) {
-          event.preventDefault();
-          if (typeof e.stopPropagation != 'undefined') {
-            e.stopPropagation();
-          } else {
-            e.cancelBubble = true;
-          }
-        }
+
         if (menuIsOpen) {
           if (!focusedOption) return;
           if (this.isComposing) return;
+
           this.selectOption(focusedOption);
+
           break;
         }
         return;

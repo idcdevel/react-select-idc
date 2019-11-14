@@ -75,6 +75,10 @@ const manageState = <C: {}>(
     blur() {
       this.select.blur();
     }
+
+    selectCurrentOption() {
+      this.select.selectCurrentOption();
+    }
     // FIXME: untyped flow code, return any
     getProp(key: string) {
       return this.props[key] !== undefined ? this.props[key] : this.state[key];
@@ -105,6 +109,12 @@ const manageState = <C: {}>(
       this.callProp('onMenuClose');
       this.setState({ menuIsOpen: false });
     };
+
+    toggleMenu = () => {
+      if (!this.state.menuIsOpen) this.onMenuOpen();
+      else this.onMenuClose();
+    };
+
     render() {
       const {
         defaultInputValue,
